@@ -20,11 +20,12 @@ function dateToStringLongFormat(date: Date): string {
   });
 }
 
-function dateToStringISOFormat(date: Date): string {
+function dateToEpochTime(date: Date, isStartDate: boolean): string {
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
   const year = date.getFullYear();
-  return `${month}-${day}-${year}`;
+  const localDate = isStartDate ? new Date(`${year}-${month}-${day}T00:00:00`) : new Date(`${year}-${month}-${day}T23:59:59`);
+  return localDate.getTime();
 }
 
 function getDateFromToday(days, months, years) {
@@ -43,9 +44,9 @@ function History(): JSX.Element {
   const [mailData, setMailData] = useState([]);
 
   const getMailData = () => {
-    let startDateStr = dateToStringISOFormat(startDate);
-    let endDateStr = dateToStringISOFormat(endDate);
-    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateStr}/${endDateStr}`)
+    let startDateEpoch = dateToEpochTime(startDate, true);
+    let endDateEpoch = dateToEpochTime(endDate, false);
+    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}`)
       .then(res => res.json())
       .then(data => setMailData(data))
       .catch(err => console.log('err', err));
