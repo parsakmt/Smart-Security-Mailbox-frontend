@@ -13,8 +13,6 @@ import {House, ClockCounterClockwise} from 'phosphor-react-native';
 import HomeNavigator from './src/navigators/HomeNavigator';
 import HistoryNavigator from './src/navigators/HistoryNavigator';
 
-// For testing BLE
-import Lock from './src/views/Lock';
 
 function App(): JSX.Element {
   const Tab = createBottomTabNavigator();
@@ -26,7 +24,6 @@ function App(): JSX.Element {
           tabBarActiveTintColor: '#4DA8E5',
           headerShown: false,
         }}>
-        <Tab.Screen name="Lock" component={Lock} />
         <Tab.Screen
           name="Home"
           component={HomeNavigator}
