@@ -3,16 +3,20 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../views/Home';
 import Header from '../components/Header';
 
-
-function HomeNavigator(): JSX.Element {
+function HomeNavigator({firstName, navigation}): JSX.Element {
   const HomeStack = createStackNavigator();
 
   return (
     <HomeStack.Navigator
       screenOptions={{
-        header: () => <Header/>,
+        header: () => <Header />,
       }}>
-      <HomeStack.Screen name="SmartSecurityMailbox" component={HomeScreen} />
+      <HomeStack.Screen
+        name="SmartSecurityMailbox"
+        children={() => (
+          <HomeScreen firstName={firstName} navigation={navigation} />
+        )}
+      />
     </HomeStack.Navigator>
   );
 }

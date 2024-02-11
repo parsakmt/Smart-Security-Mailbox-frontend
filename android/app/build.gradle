@@ -76,6 +76,7 @@ android {
     namespace "com.smartsecuritymailbox"
     defaultConfig {
         applicationId "com.smartsecuritymailbox"
+        manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm', auth0Domain: "dev-f1zo7isluuuhx3tq.us.auth0.com", auth0Scheme: "${applicationId}.auth0"]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
