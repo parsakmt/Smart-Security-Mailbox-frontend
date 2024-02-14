@@ -1,7 +1,8 @@
 import BLEManager from 'react-native-ble-manager';
+import {Buffer} from 'buffer';
 
-function bleStart() {
-  BLEManager.start()
+async function bleStart() {
+  await BLEManager.start()
     .then(() => {
       console.log('BLE module initialized');
     })
@@ -10,8 +11,8 @@ function bleStart() {
     });
 }
 
-function bleConnect(id: string) {
-  BLEManager.connect(id, {autoconnect: true})
+async function bleConnect(id: string) {
+  await BLEManager.connect(id, {autoconnect: true})
     .then(() => {
       console.log('Connected');
     })
@@ -20,8 +21,8 @@ function bleConnect(id: string) {
     });
 }
 
-function bleDisconnect(id: string) {
-  BLEManager.disconnect(id)
+async function bleDisconnect(id: string) {
+  await BLEManager.disconnect(id)
     .then(() => {
       console.log('Disconnected');
     })
@@ -30,4 +31,27 @@ function bleDisconnect(id: string) {
     });
 }
 
-export {bleStart, bleConnect, bleDisconnect};
+async function bleWrite(
+  id: string,
+  serviceUUID: string,
+  characteristicUUID: string,
+  data: string,
+) {
+  await BLEManager.retrieveServices(id).then(() => {
+    BLEManager.writeWithoutResponse(
+      id,
+      serviceUUID,
+      characteristicUUID,
+      Buffer.from(data).toJSON().data,
+      50, // max string length
+    )
+      .then(() => {
+        console.log('Wrote response');
+      })
+      .catch(() => {
+        console.log('Error writing response');
+      });
+  });
+}
+
+export {bleStart, bleConnect, bleDisconnect, bleWrite};
