@@ -1,13 +1,36 @@
-import React from 'react';
-import {Button, View, Text, Image} from 'react-native';
-import {GearSix} from 'phosphor-react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image, Pressable} from 'react-native';
 import {useAuth0} from 'react-native-auth0';
+import {bleStart, bleConnect, bleDisconnect} from '../apis/ble';
+import {GearSix} from 'phosphor-react-native';
+import {MAC_ID} from '@env';
 
 function Home({firstName, navigation}): JSX.Element {
+
+  const [isLocked, onIsLockedChange] = useState(true);
+  // For later, when changing button design
+  const [lockStatus, onLockStatusChange] = useState('Unlock');
   const {clearSession} = useAuth0();
 
   const onLogout = async () => {
     await clearSession({}, {}).then(navigation.navigate('Login'));
+  };
+
+  useEffect(() => {
+    bleStart();
+  }, []);
+
+  const lockAction = () => {
+    // TODO: Check if device exists first
+    if (isLocked) {
+      bleConnect(MAC_ID);
+      onIsLockedChange(false);
+      onLockStatusChange('Lock');
+    } else {
+      bleDisconnect(MAC_ID);
+      onIsLockedChange(true);
+      onLockStatusChange('Unlock');
+    }
   };
 
   return (
@@ -25,7 +48,9 @@ function Home({firstName, navigation}): JSX.Element {
         <GearSix size={48} />
       </View>
       <View style={{alignItems: 'center'}}>
-        <Image source={require('../../assets/MailboxImage.png')} />
+        <Pressable onPress={lockAction}>
+          <Image source={require('../../assets/MailboxImage.png')} />
+        </Pressable>
       </View>
       <Button onPress={onLogout} title={'Log Out'} />
       <Text

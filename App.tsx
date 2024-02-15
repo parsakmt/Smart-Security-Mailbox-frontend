@@ -20,6 +20,7 @@ import {AUTH_DOMAIN, AUTH_CLIENT_ID} from '@env';
 
 const Stack = createNativeStackNavigator();
 
+
 function App(): JSX.Element {
   return (
     <NavigationContainer>
