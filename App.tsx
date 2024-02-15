@@ -5,44 +5,65 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {House, ClockCounterClockwise} from 'phosphor-react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import HomeNavigator from './src/navigators/HomeNavigator';
-import HistoryNavigator from './src/navigators/HistoryNavigator';
+import {useAuth0, Auth0Provider} from 'react-native-auth0';
+
+import Login from './src/views/Login';
+import Setup from './src/views/Setup';
+import Navigator from './src/navigators/Navigator';
+
+import {AUTH_DOMAIN, AUTH_CLIENT_ID} from '@env';
+
+const Stack = createNativeStackNavigator();
 
 
 function App(): JSX.Element {
-  const Tab = createBottomTabNavigator();
-
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarActiveTintColor: '#4DA8E5',
-          headerShown: false,
-        }}>
-        <Tab.Screen
-          name="Home"
-          component={HomeNavigator}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({color}) => <House color={color} />,
-          }}
-        />
-        <Tab.Screen
-          name="History"
-          component={HistoryNavigator}
-          options={{
-            tabBarLabel: 'History',
-            tabBarIcon: ({color}) => <ClockCounterClockwise color={color} />,
-          }}
-        />
-      </Tab.Navigator>
+      <Auth0Provider domain={AUTH_DOMAIN} clientId={AUTH_CLIENT_ID}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name={'Login'}
+            component={Login}
+            options={{headerBackVisible: false}}
+          />
+          <Stack.Screen
+            name={'Setup'}
+            component={Setup}
+            options={{headerBackVisible: false}}
+          />
+          <Stack.Screen
+            name={'Application'}
+            component={Navigator}
+            options={{headerBackVisible: false}}
+          />
+        </Stack.Navigator>
+      </Auth0Provider>
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  header: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  error: {
+    margin: 20,
+    textAlign: 'center',
+    color: '#D8000C',
+  },
+});
 
 export default App;

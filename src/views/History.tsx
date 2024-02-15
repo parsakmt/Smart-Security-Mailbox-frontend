@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  TextInput,
   FlatList,
-  Button,
   TouchableOpacity,
   Text,
   StyleSheet,
@@ -36,7 +34,7 @@ function getDateFromToday(days, months, years) {
   return date;
 }
 
-function History(): JSX.Element {
+function History({uid}): JSX.Element {
   const [startDate, setStartDate] = useState(getDateFromToday(0, 0, -1));
   const [endDate, setEndDate] = useState(new Date());
   const [startDateOpen, setStartDateOpen] = useState(false);
@@ -46,7 +44,7 @@ function History(): JSX.Element {
   const getMailData = () => {
     let startDateEpoch = dateToEpochTime(startDate, true);
     let endDateEpoch = dateToEpochTime(endDate, false);
-    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}`)
+    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}/${uid}`)
       .then(res => res.json())
       .then(data => setMailData(data))
       .catch(err => console.log('err', err));
