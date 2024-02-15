@@ -1,6 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {House, ClockCounterClockwise} from 'phosphor-react-native';
+import {Button, View, Text, Image} from 'react-native';
+
 
 import HomeNavigator from '../navigators/HomeNavigator';
 import HistoryNavigator from '../navigators/HistoryNavigator';

@@ -7,6 +7,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import HistoryMailItem from '../components/HistoryMailItem';
+import Header from '../components/Header';
+
 import DatePicker from 'react-native-date-picker';
 import {REACT_APP_API_BASE_URL} from '@env';
 
@@ -34,7 +36,7 @@ function getDateFromToday(days, months, years) {
   return date;
 }
 
-function History({uid}): JSX.Element {
+function History({navigation, uid}): JSX.Element {
   const [startDate, setStartDate] = useState(getDateFromToday(0, 0, -1));
   const [endDate, setEndDate] = useState(new Date());
   const [startDateOpen, setStartDateOpen] = useState(false);
@@ -44,7 +46,7 @@ function History({uid}): JSX.Element {
   const getMailData = () => {
     let startDateEpoch = dateToEpochTime(startDate, true);
     let endDateEpoch = dateToEpochTime(endDate, false);
-    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}/${uid}`)
+    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}`)
       .then(res => res.json())
       .then(data => setMailData(data))
       .catch(err => console.log('err', err));
@@ -55,9 +57,13 @@ function History({uid}): JSX.Element {
   }, [startDate, endDate]);
 
   const renderMailCards = ({item}) => <HistoryMailItem time={item.time} />;
+  const ItemSeparator = () => <View style={{ height: 10 }} />;
+
 
   return (
-    <View style={{gap: 10}}>
+    <View style={{gap: 30}}>
+
+        <Header displaySettings={true} navigation={navigation} />
       <View
         style={{
           flexDirection: 'row',
@@ -114,8 +120,9 @@ function History({uid}): JSX.Element {
         data={mailData}
         renderItem={renderMailCards}
         keyExtractor={item => item.mid}
+        ItemSeparatorComponent={ItemSeparator}
         contentContainerStyle={{alignItems: 'center'}}
-        ListFooterComponent={<View style={{marginBottom: 100}} />}
+        ListFooterComponent={<View style={{marginBottom: 175}} />}
       />
     </View>
   );
@@ -128,6 +135,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
   },
   buttonText: {
     color: 'black',

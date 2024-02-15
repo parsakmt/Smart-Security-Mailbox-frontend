@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, Pressable, Image, StyleSheet, Text, View} from 'react-native';
 import {useAuth0} from 'react-native-auth0';
 
 import LoadingScreen from './LoadingScreen';
+import MailboxLogo from '../components/MailboxLogo';
 
 import {REACT_APP_API_BASE_URL} from '@env';
 
 const Login = ({navigation}) => {
-  const {authorize, user, error, isLoading} = useAuth0();
+  const {authorize, user, error, clearSession,  isLoading} = useAuth0();
   const [isUserSetupDone, setUserSetupDone] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [uid, setUid] = useState(null);
   const onLogin = async () => {
+    setUserSetupDone(null);
     await authorize({}, {});
   };
 
@@ -30,7 +32,7 @@ const Login = ({navigation}) => {
   }
 
   if (isLoading || (loggedIn && isUserSetupDone === null)) {
-    return <LoadingScreen userComplete={''} user={''} />;
+      navigation.navigate('LoadingScreen');
   } else if (loggedIn && isUserSetupDone !== null) {
     if (isUserSetupDone) {
       navigation.navigate('Application', {firstName: firstName, uid: uid});
@@ -38,15 +40,68 @@ const Login = ({navigation}) => {
       navigation.navigate('Setup');
     }
   } else {
+  console.log("Rendering login");
     return (
-      <View>
-        <Text>Smart Security Mailbox</Text>
-        <Text>You are not logged in</Text>
-        <Button onPress={onLogin} title={'Log In'} />
-        {error && <Text>{error.message}</Text>}
+      <View style={styles.container}>
+        <View style={{marginBottom: 100}}>
+        <MailboxLogo/>
+         </View>
+
+        <Text style={styles.welcomeMessage}>Welcome to Your</Text>
+        <Text style={styles.welcomeMessage}>Smart Security Mailbox</Text>
+        <Pressable style={styles.loginButton} onPress={() => onLogin()}>
+            <Text style={styles.loginButtonText}>Login</Text>
+        </Pressable>
+        {error && <Text style={styles.error}>{error.message}</Text>}
       </View>
     );
   }
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E0F2F1'
+  },
+  welcomeMessage: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#37474F', // Dark blue text color
+    marginBottom: 10,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)', // Shadow color
+    textShadowOffset: { width: 1, height: 1 }, // Shadow offset
+    textShadowRadius: 2, // Shadow radius
+  },
+  loginButton: {
+      backgroundColor: '#26A69A', // Teal button color
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderRadius: 30,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 20,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.27,
+      shadowRadius: 4.65,
+      elevation: 6,
+    },
+    loginButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+      },
+  error: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 10,
+  },
+});
 
 export default Login;

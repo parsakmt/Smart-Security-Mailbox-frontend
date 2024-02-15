@@ -9,7 +9,7 @@ function HomeNavigator({firstName, navigation}): JSX.Element {
   return (
     <HomeStack.Navigator
       screenOptions={{
-        header: () => <Header />,
+        headerShown: false
       }}>
       <HomeStack.Screen
         name="SmartSecurityMailbox"
