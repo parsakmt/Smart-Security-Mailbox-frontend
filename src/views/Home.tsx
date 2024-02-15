@@ -1,13 +1,13 @@
 import React from 'react';
-import {Button, View, Text, Image} from 'react-native';
+import {Button, StyleSheet, View, Text, Image} from 'react-native';
 import {useAuth0} from 'react-native-auth0';
 import Header from '../components/Header';
 import MailboxLogo from '../components/MailboxLogo';
 
 
-function Home({firstName, navigation}): JSX.Element {
+function Home({firstName, uid, navigation}): JSX.Element {
   return (
-    <View style={{gap: 30}}>
+    <View style={{backgroundColor: '#E0F2F1', height: '100%'}}>
 
         <Header displaySettings={true} navigation={navigation} />
       <View

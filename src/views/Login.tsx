@@ -37,7 +37,7 @@ const Login = ({navigation}) => {
     if (isUserSetupDone) {
       navigation.navigate('Application', {firstName: firstName, uid: uid});
     } else {
-      navigation.navigate('Setup');
+      navigation.navigate('Setup', {navigation: navigation});
     }
   } else {
   console.log("Rendering login");
@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#37474F', // Dark blue text color
+    color: '#37474F',
     marginBottom: 10,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)', // Shadow color
-    textShadowOffset: { width: 1, height: 1 }, // Shadow offset
-    textShadowRadius: 2, // Shadow radius
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   loginButton: {
-      backgroundColor: '#26A69A', // Teal button color
+      backgroundColor: '#26A69A',
       paddingHorizontal: 20,
       paddingVertical: 10,
       borderRadius: 30,

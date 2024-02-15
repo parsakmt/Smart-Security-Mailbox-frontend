@@ -44,7 +44,7 @@ function App(): JSX.Element {
           <Stack.Screen
             name={'Setup'}
             component={Setup}
-            options={{ headerTitle: () => <Header displayBackButton={true} prevScreen={'Login'}/>, headerBackVisible: false}}
+            options={{ headerShown: false}}
 
           />
           <Stack.Screen
