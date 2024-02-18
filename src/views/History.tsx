@@ -1,11 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  FlatList,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {View, FlatList, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import HistoryMailItem from '../components/HistoryMailItem';
 import Header from '../components/Header';
 
@@ -24,7 +18,9 @@ function dateToEpochTime(date: Date, isStartDate: boolean): string {
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
   const year = date.getFullYear();
-  const localDate = isStartDate ? new Date(`${year}-${month}-${day}T00:00:00`) : new Date(`${year}-${month}-${day}T23:59:59`);
+  const localDate = isStartDate
+    ? new Date(`${year}-${month}-${day}T00:00:00`)
+    : new Date(`${year}-${month}-${day}T23:59:59`);
   return localDate.getTime();
 }
 
@@ -46,7 +42,7 @@ function History({navigation, firstName, uid}): JSX.Element {
   const getMailData = () => {
     let startDateEpoch = dateToEpochTime(startDate, true);
     let endDateEpoch = dateToEpochTime(endDate, false);
-    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}`)
+    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}/${uid}`)
       .then(res => res.json())
       .then(data => setMailData(data))
       .catch(err => console.log('err', err));
@@ -57,13 +53,16 @@ function History({navigation, firstName, uid}): JSX.Element {
   }, [startDate, endDate]);
 
   const renderMailCards = ({item}) => <HistoryMailItem time={item.time} />;
-  const ItemSeparator = () => <View style={{ height: 10 }} />;
-
+  const ItemSeparator = () => <View style={{height: 10}} />;
 
   return (
     <View style={{backgroundColor: '#E0F2F1', height: '100%'}}>
-
-        <Header displaySettings={true} navigation={navigation} />
+      <Header
+        displaySettings={true}
+        navigation={navigation}
+        firstName={firstName}
+        uid={uid}
+      />
       <View
         style={{
           flexDirection: 'row',
@@ -136,13 +135,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonText: {
     color: 'black',

@@ -5,33 +5,40 @@ import Header from '../components/Header';
 import {useAuth0} from 'react-native-auth0';
 
 const Settings = ({navigation, firstName, uid}) => {
-    const {clearSession} = useAuth0();
+  const {clearSession} = useAuth0();
 
   const onLogout = async () => {
     await clearSession({}, {}).then(() => navigation.navigate('Login'));
   };
-  return (
-  <View style={styles.container}>
-    <Header displaySettings={false} displayBackButton={true} navigation={navigation} prevScreen={"Application"} firstName={firstName} uid={uid}/>
-    <View style={styles.buttonContainer}>
-        <Pressable style={styles.logoutButton} onPress={() => onLogout()}>
-                <Text style={styles.logoutButtonText}>Logout</Text>
-            </Pressable>
-    </View>
-  </View>
 
+  return (
+    <View style={styles.container}>
+      <Header
+        displaySettings={false}
+        displayBackButton={true}
+        navigation={navigation}
+        prevScreen={'Application'}
+        firstName={firstName}
+        uid={uid}
+      />
+      <View style={styles.buttonContainer}>
+        <Pressable style={styles.logoutButton} onPress={() => onLogout()}>
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
     flex: 1,
   },
   buttonContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   logoutButton: {
     backgroundColor: '#EF5350',
     paddingHorizontal: 20,
@@ -54,6 +61,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
 
 export default Settings;

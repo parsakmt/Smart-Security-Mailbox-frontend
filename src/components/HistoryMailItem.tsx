@@ -12,12 +12,12 @@ function HistoryMailItem({time}): JSX.Element {
 
   return (
     <View style={styles.card}>
-    <View style={{flex: 1}}>
-                <Text style={styles.timeText}>{timeString}</Text>
-            </View>
-        <View style={{flex: 1}}>
-            <Text style={styles.dateText}>{dateString}</Text>
-        </View>
+      <View style={{flex: 1}}>
+        <Text style={styles.timeText}>{timeString}</Text>
+      </View>
+      <View style={{flex: 1}}>
+        <Text style={styles.dateText}>{dateString}</Text>
+      </View>
     </View>
   );
 }
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-     width: '90%',
+    width: '90%',
     elevation: 5,
   },
   timeText: {
@@ -50,14 +50,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#37474F',
   },
-   leftColumn: {
-      flex: 1,
-      marginRight: 10,
-    },
-    rightColumn: {
-      flex: 1,
-      marginLeft: 10,
-    },
+  leftColumn: {
+    flex: 1,
+    marginRight: 10,
+  },
+  rightColumn: {
+    flex: 1,
+    marginLeft: 10,
+  },
 });
 
 export default HistoryMailItem;
