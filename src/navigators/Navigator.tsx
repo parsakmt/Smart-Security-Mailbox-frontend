@@ -20,6 +20,7 @@ const Navigator = ({navigation, route}) => {
         children={() => (
           <HomeNavigator
             firstName={route.params.firstName}
+            macAddress={route.params.macAddress}
             uid={route.params.uid}
             navigation={navigation}
           />
@@ -34,6 +35,7 @@ const Navigator = ({navigation, route}) => {
         children={() => (
           <HistoryNavigator
             firstName={route.params.firstName}
+            macAddress={route.params.macAddress}
             uid={route.params.uid}
             navigation={navigation}
           />

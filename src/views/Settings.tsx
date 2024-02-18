@@ -4,7 +4,7 @@ import Header from '../components/Header';
 
 import {useAuth0} from 'react-native-auth0';
 
-const Settings = ({navigation, firstName, uid}) => {
+const Settings = ({navigation}) => {
   const {clearSession} = useAuth0();
 
   const onLogout = async () => {
@@ -17,9 +17,6 @@ const Settings = ({navigation, firstName, uid}) => {
         displaySettings={false}
         displayBackButton={true}
         navigation={navigation}
-        prevScreen={'Application'}
-        firstName={firstName}
-        uid={uid}
       />
       <View style={styles.buttonContainer}>
         <Pressable style={styles.logoutButton} onPress={() => onLogout()}>

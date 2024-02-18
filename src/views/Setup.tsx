@@ -121,6 +121,7 @@ const Setup = ({navigation}) => {
           navigation.navigate('Application', {
             firstName: firstName,
             uid: data.uid,
+            macAddress: macAddress,
           }),
         )
         .catch(error => {
@@ -135,7 +136,7 @@ const Setup = ({navigation}) => {
         displaySettings={false}
         displayBackButton={true}
         navigation={navigation}
-        prevScreen={'Login'}
+        backLogin={true}
       />
       <KeyboardAwareScrollView
         style={styles.inputContainer}

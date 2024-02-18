@@ -11,6 +11,7 @@ const Login = ({navigation}) => {
   const {authorize, user, error, clearSession, isLoading} = useAuth0();
   const [isUserSetupDone, setUserSetupDone] = useState(null);
   const [firstName, setFirstName] = useState('');
+  const [macAddress, setMacAddress] = useState('');
   const [uid, setUid] = useState(null);
   const onLogin = async () => {
     setUserSetupDone(null);
@@ -26,6 +27,7 @@ const Login = ({navigation}) => {
         if (isUserSetupDone) {
           setFirstName(data[0].first_name);
           setUid(data[0].uid);
+          setMacAddress(data[0].mac_address);
         }
       })
       .catch(err => console.log('err', err));
@@ -35,9 +37,9 @@ const Login = ({navigation}) => {
     return (<LoadingScreen navigation={navigation}/>);
   } else if (loggedIn && isUserSetupDone !== null) {
     if (isUserSetupDone) {
-      navigation.navigate('Application', {firstName: firstName, uid: uid});
+      navigation.navigate('Application', {firstName: firstName, uid: uid, macAddress: macAddress});
     } else {
-      navigation.navigate('Setup', {navigation: navigation});
+      navigation.navigate('Setup');
     }
   } else {
     console.log('Rendering login');

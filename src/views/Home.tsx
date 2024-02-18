@@ -4,9 +4,8 @@ import {useAuth0} from 'react-native-auth0';
 import Header from '../components/Header';
 import MailboxLogo from '../components/MailboxLogo';
 import {bleStart, bleConnect, bleDisconnect} from '../apis/ble';
-import {MAC_ID} from '@env';
 
-function Home({firstName, uid, navigation}): JSX.Element {
+function Home({firstName, macAddress, navigation}): JSX.Element {
   const [isLocked, onIsLockedChange] = useState(true);
   // For later, when changing button design
   const [lockStatus, onLockStatusChange] = useState('Unlock');
@@ -22,12 +21,13 @@ function Home({firstName, uid, navigation}): JSX.Element {
 
   const lockAction = () => {
     // TODO: Check if device exists first
+    console.log(macAddress);
     if (isLocked) {
-      bleConnect(MAC_ID);
+      bleConnect(macAddress);
       onIsLockedChange(false);
       onLockStatusChange('Lock');
     } else {
-      bleDisconnect(MAC_ID);
+      bleDisconnect(macAddress);
       onIsLockedChange(true);
       onLockStatusChange('Unlock');
     }
@@ -36,10 +36,9 @@ function Home({firstName, uid, navigation}): JSX.Element {
   return (
     <View style={{backgroundColor: '#E0F2F1', height: '100%'}}>
       <Header
+       displayBackButton={false}
         displaySettings={true}
         navigation={navigation}
-        firstName={firstName}
-        uid={uid}
       />
       <View
         style={{

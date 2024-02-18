@@ -7,21 +7,19 @@ function Header({
   displayBackButton,
   displaySettings,
   navigation,
-  prevScreen,
-  firstName,
-  uid,
+  backLogin,
 }): JSX.Element {
   const {clearSession} = useAuth0();
 
   const onBackButton = async () => {
-    if (prevScreen == 'Login') {
+    if (backLogin == true) {
       await clearSession({}, {}).then(() => navigation.goBack('Login'));
     } else {
       navigation.goBack();
     }
   };
   const onPressSettings = (firstName, uid) => {
-    navigation.navigate('Settings', {firstName: firstName, uid: uid});
+    navigation.navigate('Settings');
   };
 
   return (
@@ -30,7 +28,7 @@ function Header({
         <View style={styles.logoContainer}>
           {displayBackButton && (
             <View>
-              <TouchableOpacity onPress={() => onBackButton(firstName, uid)}>
+              <TouchableOpacity onPress={onBackButton}>
                 <ArrowLeft size={24} weight="bold" color="white" />
               </TouchableOpacity>
             </View>

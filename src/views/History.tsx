@@ -32,7 +32,7 @@ function getDateFromToday(days, months, years) {
   return date;
 }
 
-function History({navigation, firstName, uid}): JSX.Element {
+function History({navigation, uid}): JSX.Element {
   const [startDate, setStartDate] = useState(getDateFromToday(0, 0, -1));
   const [endDate, setEndDate] = useState(new Date());
   const [startDateOpen, setStartDateOpen] = useState(false);
@@ -58,10 +58,9 @@ function History({navigation, firstName, uid}): JSX.Element {
   return (
     <View style={{backgroundColor: '#E0F2F1', height: '100%'}}>
       <Header
+      displayBackButton={false}
         displaySettings={true}
         navigation={navigation}
-        firstName={firstName}
-        uid={uid}
       />
       <View
         style={{
