@@ -17,7 +17,6 @@ import Login from './src/views/Login';
 import Setup from './src/views/Setup';
 import Settings from './src/views/Settings';
 
-
 import Header from './src/components/Header';
 
 import Navigator from './src/navigators/Navigator';
@@ -25,7 +24,6 @@ import Navigator from './src/navigators/Navigator';
 import {AUTH_DOMAIN, AUTH_CLIENT_ID} from '@env';
 
 const Stack = createNativeStackNavigator();
-
 
 function App(): JSX.Element {
   return (
@@ -38,22 +36,20 @@ function App(): JSX.Element {
             options={{headerShown: false}}
           />
           <Stack.Screen
-              name={'LoadingScreen'}
-              component={LoadingScreen}
-              options={{headerShown: false}}
-            />
+            name={'LoadingScreen'}
+            component={LoadingScreen}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name={'Setup'}
             component={Setup}
-            options={{ headerShown: false}}
-
+            options={{headerShown: false}}
           />
           <Stack.Screen
-              name={'Settings'}
-              component={Settings}
-              options={{ headerShown: false}}
-
-            />
+            name={'Settings'}
+            component={Settings}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name={'Application'}
             component={Navigator}

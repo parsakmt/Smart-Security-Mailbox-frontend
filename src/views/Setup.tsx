@@ -13,32 +13,34 @@ import Header from '../components/Header';
 
 import {REACT_APP_API_BASE_URL} from '@env';
 
+import {bleStart, bleConnect, bleWrite} from '../apis/ble';
+
 const Setup = ({navigation}) => {
   const {user} = useAuth0();
   const [firstName, setFirstName] = useState('');
-  const [isValidFirstName, setIsValidFirstName] = useState(null);
+  const [isValidFirstName, setIsValidFirstName] = useState(true);
   const [lastName, setLastName] = useState('');
-  const [isValidLastName, setIsValidLastName] = useState(null);
+  const [isValidLastName, setIsValidLastName] = useState(true);
   const [macAddress, setMacAddress] = useState('');
-  const [isValidMacAddress, setIsValidMacAddress] = useState(null);
+  const [isValidMacAddress, setIsValidMacAddress] = useState(true);
   const [serviceUUID, setServiceUUID] = useState('');
-  const [isValidServiceUUID, setIsValidServiceUUID] = useState(null);
+  const [isValidServiceUUID, setIsValidServiceUUID] = useState(true);
   const [ssidCharacteristicUUID, setSSIDCharacteristicUUID] = useState('');
   const [isValidSSIDCharacteristicUUID, setIsValidSSIDCharacteristicUUID] =
-    useState(null);
+    useState(true);
   const [passwordCharacteristicUUID, setPasswordCharacteristicUUID] =
     useState('');
   const [
     isValidPasswordCharacteristicUUID,
     setIsValidPasswordCharacteristicUUID,
-  ] = useState(null);
+  ] = useState(true);
   const [uidCharacteristicUUID, setUIDCharacteristicUUID] = useState('');
   const [isValidUIDCharacteristicUUID, setIsValidUIDCharacteristicUUID] =
-    useState(null);
+    useState(true);
   const [wifiSSID, setWifiSSID] = useState('');
-  const [isValidWifiSSID, setIsValidWifiSSID] = useState(null);
+  const [isValidWifiSSID, setIsValidWifiSSID] = useState(true);
   const [wifiPassword, setWifiPassword] = useState('');
-  const [isValidWifiPassword, setIsValidWifiPassword] = useState(null);
+  const [isValidWifiPassword, setIsValidWifiPassword] = useState(true);
   const [uid, setUid] = useState(null);
 
   const validateFirstName = () => {
@@ -112,18 +114,43 @@ const Setup = ({navigation}) => {
         body: JSON.stringify(userData),
       })
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response error');
-          }
+          // if (!response.ok) {
+          //   throw new Error('Network response error');
+          // }
           return response.json();
         })
-        .then(data =>
-          navigation.navigate('Application', {
-            firstName: firstName,
-            uid: data.uid,
-            macAddress: macAddress,
-          }),
-        )
+        .then(data => {
+          return bleStart().then(() => {
+            return bleConnect(macAddress).then(() => {
+              return bleWrite(
+                macAddress,
+                userData.service_uuid,
+                userData.ssid_characteristic_uuid,
+                userData.wifi_ssid,
+              ).then(() => {
+                return bleWrite(
+                  macAddress,
+                  userData.service_uuid,
+                  userData.password_characteristic_uuid,
+                  userData.wifi_password,
+                ).then(() => {
+                  return bleWrite(
+                    macAddress,
+                    userData.service_uuid,
+                    userData.uid_characteristic_uuid,
+                    data.uid.toString(),
+                  ).then(() => {
+                    navigation.navigate('Application', {
+                      firstName: firstName,
+                      uid: data.uid,
+                      macAddress: macAddress,
+                    });
+                  });
+                });
+              });
+            });
+          });
+        })
         .catch(error => {
           console.error('Error creating user:', error);
         });

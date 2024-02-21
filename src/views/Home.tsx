@@ -20,8 +20,6 @@ function Home({firstName, macAddress, navigation}): JSX.Element {
   }, []);
 
   const lockAction = () => {
-    // TODO: Check if device exists first
-    console.log(macAddress);
     if (isLocked) {
       bleConnect(macAddress);
       onIsLockedChange(false);

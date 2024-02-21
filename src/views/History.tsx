@@ -42,7 +42,9 @@ function History({navigation, uid}): JSX.Element {
   const getMailData = () => {
     let startDateEpoch = dateToEpochTime(startDate, true);
     let endDateEpoch = dateToEpochTime(endDate, false);
-    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}/${uid}`)
+    fetch(
+      `${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}/${uid}`,
+    )
       .then(res => res.json())
       .then(data => setMailData(data))
       .catch(err => console.log('err', err));
@@ -50,7 +52,7 @@ function History({navigation, uid}): JSX.Element {
 
   useEffect(() => {
     getMailData();
-  }, [startDate, endDate]);
+  }, [startDate, endDate, uid]);
 
   const renderMailCards = ({item}) => <HistoryMailItem time={item.time} />;
   const ItemSeparator = () => <View style={{height: 10}} />;
@@ -58,7 +60,7 @@ function History({navigation, uid}): JSX.Element {
   return (
     <View style={{backgroundColor: '#E0F2F1', height: '100%'}}>
       <Header
-      displayBackButton={false}
+        displayBackButton={false}
         displaySettings={true}
         navigation={navigation}
       />

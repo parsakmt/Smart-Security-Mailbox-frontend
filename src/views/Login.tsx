@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {useAuth0} from 'react-native-auth0';
 
@@ -10,37 +10,35 @@ import {REACT_APP_API_BASE_URL} from '@env';
 const Login = ({navigation}) => {
   const {authorize, user, error, clearSession, isLoading} = useAuth0();
   const [isUserSetupDone, setUserSetupDone] = useState(null);
-  const [firstName, setFirstName] = useState('');
-  const [macAddress, setMacAddress] = useState('');
-  const [uid, setUid] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const onLogin = async () => {
     setUserSetupDone(null);
     await authorize({}, {});
   };
 
-  const loggedIn = user !== undefined && user !== null;
-  if (loggedIn) {
-    fetch(`${REACT_APP_API_BASE_URL}/users/email/${user.email}`)
-      .then(res => res.json())
-      .then(data => {
-        setUserSetupDone(data.length === 1);
-        if (isUserSetupDone) {
-          setFirstName(data[0].first_name);
-          setUid(data[0].uid);
-          setMacAddress(data[0].mac_address);
-        }
-      })
-      .catch(err => console.log('err', err));
-  }
-
-  if (isLoading || (loggedIn && isUserSetupDone === null)) {
-    return (<LoadingScreen navigation={navigation}/>);
-  } else if (loggedIn && isUserSetupDone !== null) {
-    if (isUserSetupDone) {
-      navigation.navigate('Application', {firstName: firstName, uid: uid, macAddress: macAddress});
-    } else {
-      navigation.navigate('Setup');
+  useEffect(() => {
+    setLoggedIn(user !== undefined && user !== null);
+    if (user !== undefined && user !== null) {
+      fetch(`${REACT_APP_API_BASE_URL}/users/email/${user.email}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.length === 1) {
+            navigation.navigate('Application', {
+              firstName: data[0].first_name,
+              uid: data[0].uid.toString(),
+              macAddress: data[0].mac_address,
+            });
+          } else {
+            navigation.navigate('Setup');
+          }
+        })
+        .catch(err => console.log('err', err));
     }
+  }, [user]);
+
+  if (isLoading) {
+    return <LoadingScreen navigation={navigation} />;
   } else {
     console.log('Rendering login');
     return (
