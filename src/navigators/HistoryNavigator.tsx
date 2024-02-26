@@ -1,21 +1,24 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import HistoryScreen from '../views/History';
-import Header from '../components/Header';
 
-function HistoryNavigator({uid}): JSX.Element {
+function HistoryNavigator({navigation, uid}): JSX.Element {
   const HomeStack = createStackNavigator();
 
   return (
     <HomeStack.Navigator
       screenOptions={{
-        header: () => <Header />,
+        headerShown: false,
       }}>
-      <HomeStack.Screen name="SmartSecurityMailbox"
-      children={() => (
-                <HistoryScreen uid={uid}/>
-              )}
-              />
+      <HomeStack.Screen
+        name="SmartSecurityMailbox"
+        children={() => (
+          <HistoryScreen
+            uid={uid}
+            navigation={navigation}
+          />
+        )}
+      />
     </HomeStack.Navigator>
   );
 }

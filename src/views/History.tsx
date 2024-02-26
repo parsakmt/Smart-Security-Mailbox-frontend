@@ -1,12 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  FlatList,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {View, FlatList, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import HistoryMailItem from '../components/HistoryMailItem';
+import Header from '../components/Header';
+
 import DatePicker from 'react-native-date-picker';
 import {REACT_APP_API_BASE_URL} from '@env';
 
@@ -22,7 +18,9 @@ function dateToEpochTime(date: Date, isStartDate: boolean): string {
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
   const year = date.getFullYear();
-  const localDate = isStartDate ? new Date(`${year}-${month}-${day}T00:00:00`) : new Date(`${year}-${month}-${day}T23:59:59`);
+  const localDate = isStartDate
+    ? new Date(`${year}-${month}-${day}T00:00:00`)
+    : new Date(`${year}-${month}-${day}T23:59:59`);
   return localDate.getTime();
 }
 
@@ -34,7 +32,7 @@ function getDateFromToday(days, months, years) {
   return date;
 }
 
-function History({uid}): JSX.Element {
+function History({navigation, uid}): JSX.Element {
   const [startDate, setStartDate] = useState(getDateFromToday(0, 0, -1));
   const [endDate, setEndDate] = useState(new Date());
   const [startDateOpen, setStartDateOpen] = useState(false);
@@ -44,7 +42,9 @@ function History({uid}): JSX.Element {
   const getMailData = () => {
     let startDateEpoch = dateToEpochTime(startDate, true);
     let endDateEpoch = dateToEpochTime(endDate, false);
-    fetch(`${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}/${uid}`)
+    fetch(
+      `${REACT_APP_API_BASE_URL}/mail/${startDateEpoch}/${endDateEpoch}/${uid}`,
+    )
       .then(res => res.json())
       .then(data => setMailData(data))
       .catch(err => console.log('err', err));
@@ -52,12 +52,18 @@ function History({uid}): JSX.Element {
 
   useEffect(() => {
     getMailData();
-  }, [startDate, endDate]);
+  }, [startDate, endDate, uid]);
 
   const renderMailCards = ({item}) => <HistoryMailItem time={item.time} />;
+  const ItemSeparator = () => <View style={{height: 10}} />;
 
   return (
-    <View style={{gap: 10}}>
+    <View style={{backgroundColor: '#E0F2F1', height: '100%'}}>
+      <Header
+        displayBackButton={false}
+        displaySettings={true}
+        navigation={navigation}
+      />
       <View
         style={{
           flexDirection: 'row',
@@ -114,8 +120,9 @@ function History({uid}): JSX.Element {
         data={mailData}
         renderItem={renderMailCards}
         keyExtractor={item => item.mid}
+        ItemSeparatorComponent={ItemSeparator}
         contentContainerStyle={{alignItems: 'center'}}
-        ListFooterComponent={<View style={{marginBottom: 100}} />}
+        ListFooterComponent={<View style={{marginBottom: 175}} />}
       />
     </View>
   );
@@ -128,6 +135,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonText: {
     color: 'black',

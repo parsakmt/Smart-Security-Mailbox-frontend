@@ -12,14 +12,18 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {useAuth0, Auth0Provider} from 'react-native-auth0';
 
+import LoadingScreen from './src/views/LoadingScreen';
 import Login from './src/views/Login';
 import Setup from './src/views/Setup';
+import Settings from './src/views/Settings';
+
+import Header from './src/components/Header';
+
 import Navigator from './src/navigators/Navigator';
 
 import {AUTH_DOMAIN, AUTH_CLIENT_ID} from '@env';
 
 const Stack = createNativeStackNavigator();
-
 
 function App(): JSX.Element {
   return (
@@ -29,17 +33,27 @@ function App(): JSX.Element {
           <Stack.Screen
             name={'Login'}
             component={Login}
-            options={{headerBackVisible: false}}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name={'LoadingScreen'}
+            component={LoadingScreen}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name={'Setup'}
             component={Setup}
-            options={{headerBackVisible: false}}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name={'Settings'}
+            component={Settings}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name={'Application'}
             component={Navigator}
-            options={{headerBackVisible: false}}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </Auth0Provider>

@@ -2,7 +2,7 @@ import BLEManager from 'react-native-ble-manager';
 import {Buffer} from 'buffer';
 
 async function bleStart() {
-  await BLEManager.start()
+  return await BLEManager.start()
     .then(() => {
       console.log('BLE module initialized');
     })
@@ -12,7 +12,7 @@ async function bleStart() {
 }
 
 async function bleConnect(id: string) {
-  await BLEManager.connect(id, {autoconnect: true})
+  return await BLEManager.connect(id, {autoconnect: true})
     .then(() => {
       console.log('Connected');
     })
@@ -22,7 +22,7 @@ async function bleConnect(id: string) {
 }
 
 async function bleDisconnect(id: string) {
-  await BLEManager.disconnect(id)
+  return await BLEManager.disconnect(id)
     .then(() => {
       console.log('Disconnected');
     })
@@ -37,7 +37,7 @@ async function bleWrite(
   characteristicUUID: string,
   data: string,
 ) {
-  await BLEManager.retrieveServices(id).then(() => {
+  return await BLEManager.retrieveServices(id).then(() => {
     BLEManager.writeWithoutResponse(
       id,
       serviceUUID,
