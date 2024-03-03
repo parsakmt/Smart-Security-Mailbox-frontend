@@ -4,6 +4,7 @@ import {useAuth0} from 'react-native-auth0';
 
 import LoadingScreen from './LoadingScreen';
 import MailboxLogo from '../components/MailboxLogo';
+import {parse} from 'lossless-json';
 
 import {REACT_APP_API_BASE_URL} from '@env';
 
@@ -21,8 +22,9 @@ const Login = ({navigation}) => {
     setLoggedIn(user !== undefined && user !== null);
     if (user !== undefined && user !== null) {
       fetch(`${REACT_APP_API_BASE_URL}/users/email/${user.email}`)
-        .then(res => res.json())
+        .then(res => res.text())
         .then(data => {
+          data = parse(data);
           if (data.length === 1) {
             navigation.navigate('Application', {
               firstName: data[0].first_name,
@@ -36,8 +38,7 @@ const Login = ({navigation}) => {
         .catch(err => console.log('err', err));
     }
   }, [user]);
-
-  if (isLoading) {
+  if (isLoading || loggedIn) {
     return <LoadingScreen navigation={navigation} />;
   } else {
     console.log('Rendering login');

@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Pressable,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useAuth0} from 'react-native-auth0';
 import Header from '../components/Header';

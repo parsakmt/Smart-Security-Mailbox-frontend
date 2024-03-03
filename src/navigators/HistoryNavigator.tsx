@@ -12,12 +12,7 @@ function HistoryNavigator({navigation, uid}): JSX.Element {
       }}>
       <HomeStack.Screen
         name="SmartSecurityMailbox"
-        children={() => (
-          <HistoryScreen
-            uid={uid}
-            navigation={navigation}
-          />
-        )}
+        children={() => <HistoryScreen uid={uid} navigation={navigation} />}
       />
     </HomeStack.Navigator>
   );
