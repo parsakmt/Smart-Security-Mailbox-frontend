@@ -8,6 +8,7 @@ function Header({
   displaySettings,
   navigation,
   backLogin,
+  uid,
 }): JSX.Element {
   const {clearSession} = useAuth0();
 
@@ -18,8 +19,8 @@ function Header({
       navigation.goBack();
     }
   };
-  const onPressSettings = (firstName, uid) => {
-    navigation.navigate('Settings');
+  const onPressSettings = () => {
+    navigation.navigate('Settings', {uid: uid});
   };
 
   return (

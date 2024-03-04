@@ -63,6 +63,7 @@ function History({navigation, uid}): JSX.Element {
         displayBackButton={false}
         displaySettings={true}
         navigation={navigation}
+        uid={uid}
       />
       <View
         style={{
