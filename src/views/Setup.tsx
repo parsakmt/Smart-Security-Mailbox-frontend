@@ -3,6 +3,8 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useAuth0} from 'react-native-auth0';
 import Header from '../components/Header';
+import {parse} from 'lossless-json';
+
 
 import {REACT_APP_API_BASE_URL} from '@env';
 
@@ -110,9 +112,10 @@ const Setup = ({navigation}) => {
           // if (!response.ok) {
           //   throw new Error('Network response error');
           // }
-          return response.json();
+          return response.text();
         })
         .then(data => {
+          data = parse(data);
           return bleStart().then(() => {
             return bleConnect(macAddress).then(() => {
               return bleWrite(
@@ -135,7 +138,7 @@ const Setup = ({navigation}) => {
                   ).then(() => {
                     navigation.navigate('Application', {
                       firstName: firstName,
-                      uid: data.uid,
+                      uid: data.uid.toString(),
                       macAddress: macAddress,
                     });
                   });
