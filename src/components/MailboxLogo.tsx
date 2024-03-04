@@ -1,13 +1,16 @@
 import React from 'react';
 import {Image, View, StyleSheet} from 'react-native';
 
-function MailboxLogo(): JSX.Element {
+function MailboxLogo({locked}): JSX.Element {
+  if (locked === undefined || locked === null) {
+    locked = true;
+  }
   return (
-    <View style={styles.logoContainer}>
-      <View style={styles.innerCircle}>
+    <View style={[styles.logoContainer, { backgroundColor: locked ? '#9BD1A5' : '#D19B9B' }]}>
+      <View style={[styles.innerCircle, { backgroundColor: locked ? '#E1F8DB' : '#F8DBE1' }]}>
         <Image
           source={require('../../assets/mailbox_icon.png')}
-          style={styles.logoImage}
+          style={[styles.logoImage, { tintColor: locked ? undefined : 'red'}]}
         />
       </View>
     </View>

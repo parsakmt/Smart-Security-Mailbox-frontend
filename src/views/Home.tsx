@@ -93,7 +93,7 @@ function Home({firstName, macAddress, navigation, uid}): JSX.Element {
       </View>
       <View style={{alignItems: 'center', paddingBottom: 50, paddingTop: 50}}>
         <Pressable onPress={lockAction}>
-          <MailboxLogo />
+          <MailboxLogo locked={isLocked}/>
         </Pressable>
       </View>
       <Text
