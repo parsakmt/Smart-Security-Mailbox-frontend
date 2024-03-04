@@ -1,19 +1,13 @@
 import React, {useState} from 'react';
-import {
-  Pressable,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useAuth0} from 'react-native-auth0';
 import Header from '../components/Header';
+import {parse} from 'lossless-json';
 
 import {REACT_APP_API_BASE_URL} from '@env';
 
-import {bleStart, bleConnect, bleWrite} from '../apis/ble';
+import {bleStart, bleConnect, bleDisconnect, bleWrite} from '../apis/ble';
 
 const Setup = ({navigation}) => {
   const {user} = useAuth0();
@@ -117,9 +111,10 @@ const Setup = ({navigation}) => {
           // if (!response.ok) {
           //   throw new Error('Network response error');
           // }
-          return response.json();
+          return response.text();
         })
         .then(data => {
+          data = parse(data);
           return bleStart().then(() => {
             return bleConnect(macAddress).then(() => {
               return bleWrite(
@@ -140,10 +135,12 @@ const Setup = ({navigation}) => {
                     userData.uid_characteristic_uuid,
                     data.uid.toString(),
                   ).then(() => {
-                    navigation.navigate('Application', {
-                      firstName: firstName,
-                      uid: data.uid,
-                      macAddress: macAddress,
+                    return bleDisconnect(macAddress).then(() => {
+                      navigation.navigate('Application', {
+                        firstName: firstName,
+                        uid: data.uid.toString(),
+                        macAddress: macAddress,
+                      });
                     });
                   });
                 });

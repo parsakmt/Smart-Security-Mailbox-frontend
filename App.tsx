@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,15 +17,28 @@ import Login from './src/views/Login';
 import Setup from './src/views/Setup';
 import Settings from './src/views/Settings';
 
-import Header from './src/components/Header';
-
 import Navigator from './src/navigators/Navigator';
 
 import {AUTH_DOMAIN, AUTH_CLIENT_ID} from '@env';
+import messaging from '@react-native-firebase/messaging';
 
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
   return (
     <NavigationContainer>
       <Auth0Provider domain={AUTH_DOMAIN} clientId={AUTH_CLIENT_ID}>
