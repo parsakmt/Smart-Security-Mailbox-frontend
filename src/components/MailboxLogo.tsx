@@ -1,17 +1,38 @@
 import React from 'react';
 import {Image, View, StyleSheet} from 'react-native';
+import {LockSimple, LockSimpleOpen} from 'phosphor-react-native';
 
-function MailboxLogo({locked}): JSX.Element {
+function MailboxLogo({locked, displayLock}): JSX.Element {
   if (locked === undefined || locked === null) {
     locked = true;
   }
+
+  const Lock = ({isLocked}) => {
+    return isLocked ? (
+      <LockSimple size={128} style={{color: '#9BD1A5'}} />
+    ) : (
+      <LockSimpleOpen size={128} style={{color: '#D19B9B'}} />
+    );
+  };
   return (
-    <View style={[styles.logoContainer, { backgroundColor: locked ? '#9BD1A5' : '#D19B9B' }]}>
-      <View style={[styles.innerCircle, { backgroundColor: locked ? '#E1F8DB' : '#F8DBE1' }]}>
-        <Image
-          source={require('../../assets/mailbox_icon.png')}
-          style={[styles.logoImage, { tintColor: locked ? undefined : 'red'}]}
-        />
+    <View
+      style={[
+        styles.logoContainer,
+        {backgroundColor: locked ? '#9BD1A5' : '#D19B9B'},
+      ]}>
+      <View
+        style={[
+          styles.innerCircle,
+          {backgroundColor: locked ? '#E1F8DB' : '#F8DBE1'},
+        ]}>
+        {displayLock ? (
+          <Lock isLocked={locked} />
+        ) : (
+          <Image
+            source={require('../../assets/mailbox_icon.png')}
+            style={[styles.logoImage, {tintColor: locked ? undefined : 'red'}]}
+          />
+        )}
       </View>
     </View>
   );
