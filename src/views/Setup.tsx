@@ -175,6 +175,7 @@ const Setup = ({navigation}) => {
           onChangeText={setFirstName}
           value={firstName}
           placeholder="Enter First Name Here"
+          placeholderTextColor="gray"
           maxLength={50}
         />
         <TextInput
@@ -182,6 +183,7 @@ const Setup = ({navigation}) => {
           onChangeText={setLastName}
           value={lastName}
           placeholder="Enter Last Name Here"
+          placeholderTextColor="gray"
           maxLength={50}
         />
         <TextInput
@@ -189,6 +191,7 @@ const Setup = ({navigation}) => {
           onChangeText={setMacAddress}
           value={macAddress}
           placeholder="Enter MAC Address Here"
+          placeholderTextColor="gray"
           maxLength={17}
         />
         <TextInput
@@ -196,6 +199,7 @@ const Setup = ({navigation}) => {
           onChangeText={setServiceUUID}
           value={serviceUUID}
           placeholder="Enter Service UUID Here"
+          placeholderTextColor="gray"
           maxLength={1}
         />
         <TextInput
@@ -206,6 +210,7 @@ const Setup = ({navigation}) => {
           onChangeText={setSSIDCharacteristicUUID}
           value={ssidCharacteristicUUID}
           placeholder="Enter SSID Characteristic UUID Here"
+          placeholderTextColor="gray"
           maxLength={1}
         />
         <TextInput
@@ -216,6 +221,7 @@ const Setup = ({navigation}) => {
           onChangeText={setPasswordCharacteristicUUID}
           value={passwordCharacteristicUUID}
           placeholder="Enter Password Characteristic UUID Here"
+          placeholderTextColor="gray"
           maxLength={1}
         />
         <TextInput
@@ -226,6 +232,7 @@ const Setup = ({navigation}) => {
           onChangeText={setUIDCharacteristicUUID}
           value={uidCharacteristicUUID}
           placeholder="Enter UID Characteristic UUID Here"
+          placeholderTextColor="gray"
           maxLength={1}
         />
         <TextInput
@@ -233,6 +240,7 @@ const Setup = ({navigation}) => {
           onChangeText={setWifiSSID}
           value={wifiSSID}
           placeholder="Enter WiFi SSID Here"
+          placeholderTextColor="gray"
           maxLength={36}
         />
         <TextInput
@@ -240,6 +248,7 @@ const Setup = ({navigation}) => {
           onChangeText={setWifiPassword}
           value={wifiPassword}
           placeholder="Enter WiFi Password Here"
+          placeholderTextColor="gray"
           maxLength={36}
         />
 
@@ -271,6 +280,7 @@ const styles = StyleSheet.create({
     color: '#37474F',
   },
   input: {
+    color: 'black',
     width: '100%',
     height: 40,
     borderWidth: 1,
