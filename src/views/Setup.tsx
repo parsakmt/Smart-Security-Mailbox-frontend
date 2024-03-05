@@ -5,7 +5,6 @@ import {useAuth0} from 'react-native-auth0';
 import Header from '../components/Header';
 import {parse} from 'lossless-json';
 
-
 import {REACT_APP_API_BASE_URL} from '@env';
 
 import {bleStart, bleConnect, bleWrite} from '../apis/ble';
